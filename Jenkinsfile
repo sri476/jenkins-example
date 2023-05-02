@@ -1,30 +1,13 @@
 pipeline {
     agent any
     tools {
-        maven "MAVEN"
-        jdk "JDK"
+        maven 'apache-maven-1.0.1' 
     }
     stages {
-        stage('Initialize'){
-            steps{
-                echo "PATH = ${M2_HOME}/bin:${PATH}"
-                echo "M2_HOME = /opt/maven"
-            }
-        }
-        stage('Build') {
+        stage('Example') {
             steps {
-                dir("/var/lib/jenkins/workspace/demopipelinetask/my-app") {
-                sh 'mvn -B -DskipTests clean package'
-                }
+                sh 'mvn compile'
             }
         }
-     }
-    post {
-       always {
-          junit(
-        allowEmptyResults: true,
-        testResults: '*/test-reports/.xml'
-      )
-      }
-   } 
+    }
 }
